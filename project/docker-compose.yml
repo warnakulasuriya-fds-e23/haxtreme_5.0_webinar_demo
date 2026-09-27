@@ -1,0 +1,38 @@
+name: algorithm-challenge
+
+services:
+  topology_service:
+    build:
+      context: .
+      dockerfile: topology_service/Dockerfile
+    environment:
+      - PORT=50051
+    ports:
+      - "50051:50051"
+
+  constraint_service:
+    build:
+      context: .
+      dockerfile: constraint_service/Dockerfile
+    environment:
+      - PORT=50052
+    ports:
+      - "50052:50052"
+
+  oracle_service:
+    build:
+      context: .
+      dockerfile: oracle_service/Dockerfile
+    environment:
+      - PORT=50053
+    ports:
+      - "50053:50053"
+
+  validation_service:
+    build:
+      context: .
+      dockerfile: validation_service/Dockerfile
+    environment:
+      - PORT=50054
+    ports:
+      - "50054:50054"

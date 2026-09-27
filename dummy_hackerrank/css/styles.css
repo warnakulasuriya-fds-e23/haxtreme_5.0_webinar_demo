@@ -1,0 +1,175 @@
+/* DummyRank — a HackerRank-style mock contest page. */
+:root {
+  --green: #1ba94c;
+  --green-dark: #148a3d;
+  --dark: #0e141e;
+  --dark-2: #1a2330;
+  --text: #39424e;
+  --muted: #738f93;
+  --border: #e3e6ea;
+  --bg: #f3f7f7;
+  --white: #ffffff;
+  --easy: #1ba94c;
+  --hard: #e8565e;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.55;
+}
+
+code, pre, .editor {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+code {
+  background: #eef1f3;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* ---------- top nav ---------- */
+.topnav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--dark);
+  color: var(--white);
+  padding: 0 24px;
+  height: 56px;
+}
+.topnav-left, .topnav-right { display: flex; align-items: center; gap: 24px; }
+.brand { font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+.brand-mark {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 4px;
+  background: var(--green); color: var(--white); font-size: 16px;
+}
+.topnav-links { display: flex; gap: 20px; }
+.topnav-links a {
+  color: #b7c0c9; text-decoration: none; font-size: 14px;
+  padding: 18px 0; border-bottom: 3px solid transparent;
+}
+.topnav-links a.active, .topnav-links a:hover { color: var(--white); border-bottom-color: var(--green); }
+.mock-badge {
+  font-size: 11px; letter-spacing: 0.5px; color: #ffcc66;
+  border: 1px solid #ffcc66; border-radius: 3px; padding: 3px 8px;
+}
+.avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--dark-2); display: inline-flex;
+  align-items: center; justify-content: center; font-size: 13px;
+}
+
+/* ---------- banner ---------- */
+.contest-banner {
+  background: linear-gradient(120deg, var(--dark-2), #24384a);
+  color: var(--white);
+  padding: 28px 32px;
+}
+.contest-banner h1 { margin: 0 0 4px; font-size: 26px; }
+.contest-banner .subtitle { margin: 0 0 12px; color: #c8d2da; }
+.contest-meta { display: flex; gap: 20px; font-size: 13px; color: #c8d2da; }
+
+/* ---------- layout ---------- */
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  max-width: 1280px;
+  margin: 24px auto;
+  padding: 0 24px;
+}
+
+.sidebar, .content {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.sidebar { padding: 16px; align-self: start; }
+.sidebar h3 { margin: 0 0 12px; font-size: 15px; text-transform: uppercase; color: var(--muted); }
+#problem-list { list-style: none; margin: 0; padding: 0; }
+.problem-item {
+  display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 8px;
+  padding: 10px 8px; border-radius: 3px; cursor: pointer; font-size: 14px;
+  border-left: 3px solid transparent;
+}
+.problem-item:hover { background: #f5f8f9; }
+.problem-item.active { background: #eaf7ef; border-left-color: var(--green); font-weight: 600; }
+.problem-index {
+  width: 24px; height: 24px; border-radius: 50%; background: #e7ecef;
+  display: inline-flex; align-items: center; justify-content: center; font-size: 12px;
+}
+.problem-score { color: var(--muted); font-size: 12px; }
+
+.sidebar-note { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 14px; font-size: 13px; }
+.sidebar-note h4 { margin: 0 0 6px; }
+.service-list { list-style: none; padding: 0; margin: 8px 0 0; }
+.service-list li { display: flex; justify-content: space-between; padding: 4px 0; }
+.service-list span { color: var(--muted); }
+
+/* ---------- tabs ---------- */
+.tabs { display: flex; border-bottom: 1px solid var(--border); padding: 0 16px; }
+.tab {
+  background: none; border: none; cursor: pointer; font-size: 14px;
+  padding: 14px 16px; color: var(--muted); border-bottom: 3px solid transparent;
+}
+.tab.active, .tab:hover { color: var(--text); border-bottom-color: var(--green); }
+.tab-pane { display: none; padding: 24px 28px; }
+.tab-pane.active { display: block; }
+
+/* ---------- statement ---------- */
+.statement-header h2 { margin: 0 0 6px; font-size: 24px; }
+.statement-meta { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+.difficulty { font-weight: 700; }
+.difficulty-easy { color: var(--easy); }
+.difficulty-hard { color: var(--hard); }
+.problem-id-chip { background: #eef1f3; color: var(--text); padding: 0 8px; border-radius: 10px; }
+#statement h3 { font-size: 16px; margin: 24px 0 8px; }
+
+.hidden-constraints {
+  background: #fff8e6; border: 1px dashed #e0b44c; border-radius: 4px;
+  padding: 4px 14px; font-size: 14px;
+}
+
+
+/* ---------- editor ---------- */
+.editor-panel { margin-top: 32px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.editor-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 12px; background: #f7f9fa; border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.editor {
+  display: block; width: 100%; min-height: 260px; border: none; resize: vertical;
+  padding: 12px; font-size: 13px; background: var(--dark); color: #d6deeb; outline: none;
+}
+.editor-actions { display: flex; justify-content: flex-end; gap: 10px; padding: 10px 12px; background: #f7f9fa; }
+.btn { font-size: 14px; padding: 8px 18px; border-radius: 3px; cursor: pointer; }
+.btn-outline { background: var(--white); border: 1px solid #c2c7d0; color: var(--text); }
+.btn-outline:hover { border-color: var(--text); }
+.btn-primary { background: var(--green); border: 1px solid var(--green); color: var(--white); }
+.btn-primary:hover { background: var(--green-dark); }
+
+/* ---------- misc ---------- */
+.empty-state { text-align: center; padding: 48px 0; color: var(--muted); }
+.empty-state h3 { color: var(--text); }
+
+.toast {
+  position: fixed; bottom: 24px; right: 24px; max-width: 380px;
+  background: var(--dark); color: var(--white); padding: 12px 16px;
+  border-radius: 4px; font-size: 14px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: opacity 0.2s;
+}
+.toast.hidden { opacity: 0; pointer-events: none; }
+
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; }
+  .topnav-links, .mock-badge { display: none; }
+}

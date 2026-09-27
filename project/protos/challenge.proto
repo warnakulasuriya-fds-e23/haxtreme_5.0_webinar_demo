@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package challenge;
+
+// ---------------------------------------------------------------------------
+// Shared request type: every investigation call is scoped to a problem.
+// ---------------------------------------------------------------------------
+message ProblemRequest {
+  int32 problem_id = 1;
+}
+
+// ---------------------------------------------------------------------------
+// TopologyService: reveals the hidden input structure of a problem.
+// ---------------------------------------------------------------------------
+message TopologyResponse {
+  int32 problem_id = 1;
+  string data_type = 2;            // "sequence" | "graph" | "tree" | "grid"
+  bool directed = 3;
+  bool weighted = 4;
+  bool has_negative_weights = 5;
+  bool has_cycles = 6;
+  string description = 7;
+  // Exact stdin layout of the problem. Deliberately NOT published on the
+  // contest page: the input shape is part of what TopologyService reveals.
+  string input_format = 8;
+}
+
+service TopologyService {
+  rpc DescribeStructure(ProblemRequest) returns (TopologyResponse);
+}
+
+// ---------------------------------------------------------------------------
+// ConstraintService: reveals scale limits, time budget and edge-case flags.
+// This is what tells a contestant which complexity class is realistic.
+// ---------------------------------------------------------------------------
+message ConstraintResponse {
+  int32 problem_id = 1;
+  int64 max_n = 2;                 // max vertices (graph) / max elements (sequence)
+  int64 max_m = 3;                 // max edges (0 when not applicable)
+  int64 time_limit_ms = 4;
+  string value_range = 5;          // allowed range of input values / weights
+  repeated string edge_case_flags = 6;
+}
+
+service ConstraintService {
+  rpc GetConstraints(ProblemRequest) returns (ConstraintResponse);
+}
+
+// ---------------------------------------------------------------------------
+// OracleService: runs the judge's hidden reference solution on a small
+// custom input supplied by the contestant, and returns the correct output.
+// ---------------------------------------------------------------------------
+message OracleRequest {
+  int32 problem_id = 1;
+  string input = 2;                // raw stdin-style test input
+}
+
+message OracleResponse {
+  int32 problem_id = 1;
+  string status = 2;               // "OK" | "ERROR"
+  string output = 3;               // expected stdout for the given input
+  string message = 4;
+}
+
+service OracleService {
+  rpc RunTest(OracleRequest) returns (OracleResponse);
+}
+
+// ---------------------------------------------------------------------------
+// ValidationService: accepts a candidate approach signature and returns
+// only coarse feedback (never the answer itself).
+// ---------------------------------------------------------------------------
+message ValidationRequest {
+  int32 problem_id = 1;
+  string algorithm = 2;            // e.g. "DAG_SHORTEST_PATH"
+  string complexity = 3;           // e.g. "O(V+E)"
+}
+
+message ValidationResponse {
+  int32 problem_id = 1;
+  // "COMPLEXITY_MATCHES" | "ALGORITHM_REJECTED" | "COMPLEXITY_MISMATCH"
+  // | "UNKNOWN_PROBLEM"
+  string result = 2;
+  string message = 3;
+}
+
+service ValidationService {
+  rpc ValidateApproach(ValidationRequest) returns (ValidationResponse);
+}
